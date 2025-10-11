@@ -133,6 +133,15 @@ if TYPE_CHECKING:
     AIBRIX_KV_CACHE_OL_PRIS_REMOTE_PORT: int = 6379
     AIBRIX_KV_CACHE_OL_PRIS_USE_MPUT_MGET: bool = False
     AIBRIX_KV_CACHE_OL_PRIS_PASSWORD: str = ""
+    
+    # Mooncake Env Vars
+    AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_HOSTNAME: str = "localhost"
+    AIBRIX_KV_CACHE_OL_MOONCAKE_METADATA_SERVER: str = "http://localhost:8080/metadata"
+    AIBRIX_KV_CACHE_OL_MOONCAKE_GLOBAL_SEGMENT_SIZE: int = 512 * 1024 * 1024  # 512MB
+    AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_BUFFER_SIZE: int = 128 * 1024 * 1024  # 128MB
+    AIBRIX_KV_CACHE_OL_MOONCAKE_PROTOCOL: str = "tcp"
+    AIBRIX_KV_CACHE_OL_MOONCAKE_RDMA_DEVICES: str = ""
+    AIBRIX_KV_CACHE_OL_MOONCAKE_MASTER_SERVER_ADDR: str = "localhost:50051"
 
     # RDMA Auto-Detection Env Vars
     # Defines the range of valid GIDs. Similar to NVSHMEM_IB_ADDR_RANGE
@@ -389,6 +398,40 @@ kv_cache_ol_environment_variables: Dict[str, Callable[[], Any]] = {
     ),
     "AIBRIX_KV_CACHE_OL_PRIS_PASSWORD": lambda: (
         os.getenv("AIBRIX_KV_CACHE_OL_PRIS_PASSWORD", "").strip()
+    ),
+    # ================== Mooncake Env Vars ==================
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_HOSTNAME": lambda: (
+        os.getenv("AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_HOSTNAME", "localhost").strip()
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_METADATA_SERVER": lambda: (
+        os.getenv(
+            "AIBRIX_KV_CACHE_OL_MOONCAKE_METADATA_SERVER",
+            "http://localhost:8080/metadata"
+        ).strip()
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_GLOBAL_SEGMENT_SIZE": lambda: int(
+        os.getenv(
+            "AIBRIX_KV_CACHE_OL_MOONCAKE_GLOBAL_SEGMENT_SIZE",
+            f"{512 * 1024 * 1024}"
+        )
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_BUFFER_SIZE": lambda: int(
+        os.getenv(
+            "AIBRIX_KV_CACHE_OL_MOONCAKE_LOCAL_BUFFER_SIZE",
+            f"{128 * 1024 * 1024}"
+        )
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_PROTOCOL": lambda: (
+        os.getenv("AIBRIX_KV_CACHE_OL_MOONCAKE_PROTOCOL", "tcp").strip().lower()
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_RDMA_DEVICES": lambda: (
+        os.getenv("AIBRIX_KV_CACHE_OL_MOONCAKE_RDMA_DEVICES", "").strip()
+    ),
+    "AIBRIX_KV_CACHE_OL_MOONCAKE_MASTER_SERVER_ADDR": lambda: (
+        os.getenv(
+            "AIBRIX_KV_CACHE_OL_MOONCAKE_MASTER_SERVER_ADDR",
+            "localhost:50051"
+        ).strip()
     ),
     # ================== RDMA Auto-Detection Env Vars ==================
     "AIBRIX_KV_CACHE_OL_TRANSPORT_RDMA_ADDR_RANGE": lambda: (

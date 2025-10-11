@@ -108,6 +108,10 @@ class Connector(Generic[K, V]):
             from .mock import MockConnector
 
             return MockConnector.from_envs(conn_id, executor, **kwargs)
+        elif backend_name == "MOONCAKE":
+            from .mooncake import MooncakeConnector
+
+            return MooncakeConnector.from_envs(conn_id, executor, **kwargs)
         else:
             raise ValueError(f"Unknown connector type: {backend_name}")
 
